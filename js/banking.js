@@ -33,4 +33,5 @@ document.getElementById('widthdraw-btn').addEventListener('click', function() {
     document.getElementById('widthdraw-money').innerText = showWidthdrawAmount + widthdrawAmount;
     //total balance section
     document.getElementById('total-balance').innerText = totalBalance - widthdrawAmount;
+    document.getElementById('widthdraw-input').value = '';
 });
