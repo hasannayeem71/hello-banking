@@ -1,37 +1,50 @@
-// deposit money 
+function getInnerValue(inputId) {
+    const text = document.getElementById(inputId);
+    const number = parseFloat(text.value);
+    text.value = '';
+    return number;
+}
+
+function updateInnerText(elementId, newBalance) {
+    const text = document.getElementById(elementId);
+    const number = parseFloat(text.innerText);
+    text.innerText = number + newBalance;
+}
+
+// deposit functionality
 
 document.getElementById('deposit-btn').addEventListener('click', function() {
-    let depositeAmount = document.getElementById('deposit-input').value;
-    depositeAmount = parseFloat(depositeAmount);
+    //set new value for deposit
+    const newBalance = getInnerValue('deposit-input');
+    if (!isNaN(newBalance) && newBalance > 0) {
+        updateInnerText('neet-deposite', newBalance);
+        updateInnerText('total-balance', newBalance);
+    } else {
+        alert('Invalid Input');
+    }
 
-    let neetDoposite = document.getElementById('neet-deposite').innerText;
-    neetDoposite = parseFloat(neetDoposite);
-
-
-    document.getElementById('neet-deposite').innerText = depositeAmount + neetDoposite;
-
-    let totalBalance = document.getElementById('total-balance').innerText;
-    totalBalance = parseFloat(totalBalance);
-    totalBalance = totalBalance + depositeAmount;
-    document.getElementById('total-balance').innerText = totalBalance;
-
-    document.getElementById('deposit-input').value = '';
 });
 
-// widthdraw money 
+//widthdraw functionality
 
 document.getElementById('widthdraw-btn').addEventListener('click', function() {
-    let widthdrawAmount = document.getElementById('widthdraw-input').value;
-    widthdrawAmount = parseFloat(widthdrawAmount);
-
-    let showWidthdrawAmount = document.getElementById('widthdraw-money').innerText;
-    showWidthdrawAmount = parseFloat(showWidthdrawAmount);
-
-    let totalBalance = document.getElementById('total-balance').innerText;
-    totalBalance = parseFloat(totalBalance);
-    //widthdraw showing section
-    document.getElementById('widthdraw-money').innerText = showWidthdrawAmount + widthdrawAmount;
-    //total balance section
-    document.getElementById('total-balance').innerText = totalBalance - widthdrawAmount;
-    document.getElementById('widthdraw-input').value = '';
+    // get main balance 
+    let mainBalance = document.getElementById('total-balance');
+    mainBalance = parseFloat(mainBalance.innerText);
+    //get widthdraw amount
+    const widthdrawAmount = getInnerValue('widthdraw-input');
+    //string and negative number error handaling
+    if (!isNaN(widthdrawAmount) && widthdrawAmount > 0) {
+        //unsufisient balance error handaling
+        if (widthdrawAmount <= mainBalance) {
+            // set new value in widthdraw section 
+            updateInnerText('widthdraw-money', widthdrawAmount);
+            // //update main balance
+            updateInnerText('total-balance', -widthdrawAmount);
+        } else {
+            alert('Unsufisient Balance');
+        }
+    } else {
+        alert('Invalid Input');
+    }
 });
